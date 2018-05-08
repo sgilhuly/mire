@@ -1,0 +1,37 @@
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+	$(function() {
+		var all_names = ["Maurita", "Felix", "Stella", "Olin", "Philomena", "Patty", "Aron", "Rudy", "Jenee", "Mathew", "Dan", "Marilee", "Harold", "Alton", "Elvera", "Piedad", "Kyra", "Parthenia", "Mollie", "Eugene", "Alona", "Mariko", "Latoria", "Sondra", "Marylyn", "Meta", "Giuseppe", "Madelene", "Tracee", "Emerald", "Katherin", "Nelia", "Beau", "Debroah", "Chiquita", "Luis", "Von", "Teodoro", "Ji", "Jeanett", "Josh", "Garfield", "Robbie", "Mireille", "Sherrill", "Leonard", "Irene", "Crissy", "Erna", "Sharonda", "Chas", "Laure", "Era", "Lyn", "Bobette", "Billy", "Abram", "Reynalda", "Yong", "Patrina", "Kourtney", "Jeanine", "Danielle", "Elizbeth", "Latrina", "Tenesha", "Jenelle", "Mitzie", "Ashli", "Lyndon", "Cathy", "Anissa", "Madeleine", "Emerson", "Penni", "Lyda", "Ardith", "Tad", "Grisel", "Bryant", "Nada", "Lanelle", "Etta", "Kiara", "Andrew", "Alita", "Carmon", "Georgianne", "Florine", "Terrell", "Yung", "Denae", "Olive", "Israel", "Dalia", "Laurice", "Truman", "Janey", "Mina", "Anisa", "Bianca", "Donald", "Elyse", "Alene", "Yevette", "Katy", "Thora", "Maye", "Norberto", "Shawanda", "Tamela", "Maren", "Hobert", "Sena", "Jacqulyn", "Eli", "Suk", "Tonette", "Moira", "Hyacinth", "Collin", "Jame", "Phoebe", "Emilee", "Grace", "Lore", "Brandie", "Marion", "Mariella", "Trina", "Orval", "Sherell", "Kym", "Soila", "Houston", "Beata", "Eustolia", "Kristopher", "Raisa", "Kirk", "Billye", "Shizue", "Lula", "Dewitt", "Eura", "Damaris", "Yuki", "King", "Janel", "Monique", "Candelaria", "Tara", "Teressa", "Sid", "Latricia", "Shanti", "Joshua", "Teodoro", "Lady", "Seema", "Meaghan", "Aurora", "Hilde", "Leilani", "Amada", "Vernia", "Moshe", "Angel", "Kara", "Garry", "Deeann", "Rosy", "Joannie", "Gwenda", "Darrell", "Glory", "Devora", "Ross", "Alona", "Lala", "Traci", "Shan", "Lizzie", "Gerald", "Leanne", "Lenora", "Loretta", "Mariella", "Horacio", "Robbin", "Lang", "Silas", "Trey", "Linn", "Eve", "Willian", "Vernell", "Lesley", "Catarina", "Florance"];
+		var name = all_names[Math.floor(Math.random() * all_names.length)];
+		var socket = io.connect('http://' + document.domain + ':' + location.port);
+		var chatBox = document.getElementById("chatBox");
+		var textEntry = document.getElementById("textEntry");
+
+		textEntry.onkeypress = (e) => {
+			// Enter pressed?
+			if(e.which == 10 || e.which == 13) {
+				socket.send(name + ": " + textEntry.value);
+				textEntry.value = "";
+			}
+		};
+
+		socket.on("connect", () => {
+			socket.send(name + " has connected");
+		});
+
+		socket.on("message", (message) => {
+			if(chatBox.value) {
+				chatBox.value = chatBox.value + "\n" + message;
+			} else {
+				chatBox.value = message;
+			}
+			chatBox.scrollTop = chatBox.scrollHeight;
+		});
+	});
+</script>
+
+<textarea readonly rows=20 cols=50 id="chatBox"></textarea>
+<br />
+<input type="text" id="textEntry"></input>
