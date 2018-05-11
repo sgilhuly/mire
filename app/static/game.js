@@ -29,5 +29,7 @@ $(function() {
 		writeMessage("You were disconnected...");
 	});
 
-	socket.on("message", writeMessage);
+	socket.on("message", function(message) {
+		writeMessage(message);
+	});
 });
