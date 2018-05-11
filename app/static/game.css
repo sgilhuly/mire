@@ -6,10 +6,12 @@ body {
 textarea {
 	background-color: black;
 	color: white;
+	font-size: large;
 	resize: none;
 }
 
 input {
 	background-color: black;
 	color: white;
+	font-size: large;
 }

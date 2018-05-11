@@ -3,6 +3,7 @@ $(function() {
 	var textInput = $("#textInput");
 
 	messageBox.val("");
+	textInput.width(messageBox.width());
 
 	textInput.keypress(function(e) {
 		// Enter pressed?
@@ -25,7 +26,7 @@ $(function() {
 
 	socket.on("disconnect", function() {
 		socket.close();
-		writeMessage("\nYou were disconnected...");
+		writeMessage("You were disconnected...");
 	});
 
 	socket.on("message", writeMessage);
