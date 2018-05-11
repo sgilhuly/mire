@@ -1,8 +1,15 @@
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
-<script type="text/javascript" charset="utf-8">
-    var socket = io.connect('http://' + document.domain + ':' + location.port);
-    socket.on('connect', function() {
-        socket.emit('my event', {data: 'I\'m connected!'});
-    });
-</script>
-Dis ma game page
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MIRE</title>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="/static/game.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/game.css"></head>
+</head>
+<body>
+	<textarea readonly rows=20 cols=80 id="messageBox"></textarea>
+	<br />
+	<input type="text" id="textInput"></input>
+</body>
+</html>
