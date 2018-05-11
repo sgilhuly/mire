@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 from flask import render_template, request
 from flask_socketio import join_room, leave_room, send
 
@@ -12,11 +14,13 @@ def get_connection():
 
 @socketio.on('connect')
 def handle_connect():
+	print('%s has connected' % (request.sid))
 	send('A cloaked figure emerges from the mist.\nHe beckons you closer, whispering:\n\n"Welcome to MIRE, traveller. What is your name?"')
 	app.game.active_connections[request.sid] = Connection()
 
 @socketio.on('message')
 def handle_message(message):
+	print('%s: %s' % (request.sid, message))
 	# Maybe the connection was ignored due to inactivity
 	try:
 		conn = get_connection()
