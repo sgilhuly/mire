@@ -51,4 +51,4 @@ def command_go(player, args):
 
 @command(['help', 'what'])
 def command_help(player, args):
-	send('Here is a list of things you can do:\nsay <something>: Say something to the room\njump: Do some jumps')
+	send('Here is a list of things you can do:\nsay <something>: Say something to the room\njump: Do some jumps\nlook: Look around\n<dir> / go <dir>: Move in a direction')
