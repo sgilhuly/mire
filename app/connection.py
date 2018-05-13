@@ -4,6 +4,7 @@ from flask import render_template, request
 from flask_socketio import join_room, leave_room, send
 
 from app import app, socketio
+from app.player import Player
 
 class Connection():
 	def __init__(self):
@@ -34,14 +35,13 @@ def handle_message(message):
 
 	# Login, or create a player
 	if not conn.player:
-		conn.player = message
-		send('Okay, you are named "%s".' % conn.player)
+		conn.player = Player(message, app.game.random_room())
+		send('Okay, you are named "%s".' % conn.player.name)
 		join_room('chat')
 		return
 
 	# Decide what the player's action was
 	args = message.split(' ')
-	print(app.game.commands)
 
 	if not args:
 		send('You pause for a moment and think.')

@@ -3,6 +3,7 @@ from functools import wraps
 from flask_socketio import join_room, leave_room, send
 
 from app import app
+from app.room import Room
 
 app.game.commands = {}
 
@@ -19,15 +20,34 @@ def command(aliases):
 
 @command(['say'])
 def command_say(player, args):
-	send('%s says "%s"' % (player, ' '.join(args[1:])), room="chat", broadcast=True)
+	send('%s says "%s"' % (player.name, ' '.join(args[1:])), room="chat", broadcast=True)
 
 @command(['jump'])
 def command_jump(player, args):
-	send('%s jumps up and down.' % player, room="chat", broadcast=True)
+	send('%s jumps up and down.' % player.name, room="chat", broadcast=True)
 
-@command(['go', 'n', 's', 'e', 'w', 'north', 'south', 'east', 'west'])
+@command(['look', 'l'])
+def command_look(player, args):
+	send('You are in a room named %s' % player.room.name)
+	send(player.room.describe_exits())
+
+@command(['go', 'n', 's', 'e', 'w', 'north', 'south', 'east', 'west', 'ne', 'nw', 'se', 'sw', 'northeast', 'northwest', 'southeast', 'southwest'])
 def command_go(player, args):
-	send('You try to walk somewhere, but your legs are not yet implemented.')
+	going = args[0]
+	if not going in Room.direction_codes:
+		going = args[1]
+		if not going in Room.direction_codes:
+			send('"%s" is not a valid direction.' % args[1])
+			return
+
+	dir_code = Room.direction_codes[going]
+	if dir_code not in player.room.exits:
+		send('You cannot go to the %s.' % Room.direction_names[dir_code])
+		return
+
+	player.room = player.room.exits[dir_code]
+	send('You are now in %s.' % player.room.name)
+	send(player.room.describe_exits())
 
 @command(['help', 'what'])
 def command_help(player, args):
