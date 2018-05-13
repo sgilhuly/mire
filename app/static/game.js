@@ -3,7 +3,9 @@ $(function() {
 	var textInput = $("#textInput");
 
 	messageBox.val("");
+	textInput.val("");
 	textInput.width(messageBox.width());
+	textInput.focus();
 
 	textInput.keypress(function(e) {
 		// Enter pressed?
