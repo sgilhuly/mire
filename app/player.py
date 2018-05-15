@@ -1,3 +1,5 @@
+from flask_socketio import join_room, leave_room, send
+
 from app import app
 from app.room import Room
 
@@ -30,9 +32,9 @@ class Player():
 		7: 'SOUNDER'
 	}
 
-	def __init__(self, name, room):
+	def __init__(self, name):
 		self.name = name
-		self.room = room
+		self.room = None
 		self.type = Player.TYPE_NONE
 		self.type_confirmed = False
 		self.steps_left = 100
@@ -54,3 +56,15 @@ class Player():
 			return 'SOUNDER\n\nHas a fine sense of hearing. A sounder can sing in any direction, and tell how\nfar away the nearest wall is. Can also find dead ends by listening for echoes.'
 		else:
 			return '(Type 1 - 7 to select a class)'
+
+	def exit_room(self, room, message):
+		leave_room(room.name)
+		send(message, room=room.name, broadcast=True)
+		room.players.discard(self)
+		self.room = None
+
+	def enter_room(self, room, message):
+		send(message, room=room.name, broadcast=True)
+		join_room(room.name)
+		room.players.add(self)
+		self.room = room
