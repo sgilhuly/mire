@@ -13,7 +13,7 @@ def command(*aliases):
 	def command_decorator(func):
 		@wraps(func)
 		def func_wrapper(player, *args):
-			return func(player, args)
+			return func(player, *args)
 		for c in aliases:
 			app.game.commands[c] = func_wrapper
 		return func_wrapper
