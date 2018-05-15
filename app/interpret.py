@@ -66,6 +66,14 @@ def command_look(player, *args):
 	send('You are in featureless maze.')
 	send(player.room.describe_exits())
 
+@command('point')
+def command_point(player, *args):
+	if len(args) > 1 and args[1] in Room.direction_codes:
+		dir_name = Room.direction_names[Room.direction_codes[args[1]]]
+		send('%s points to the %s.' % (player.name, dir_name), room=player.room.name, broadcast=True)
+		return
+	send('Provide a direction to point in.')
+
 @command('status', 'stats', 'stat')
 def command_status(player, *args):
 	send('%d steps left.' % player.steps_left)
@@ -147,5 +155,6 @@ def command_sing(player, *args):
 @command('help', 'what')
 def command_help(player, *args):
 	if len(args) > 1 and args[1] == 'class':
+		send(player.help_class())
 		return
 	send('Here is a list of things you can do:\nsay <something>: Say something to the room\njump: Do some jumps\nlook: Look around\n<dir> / go <dir>: Move in a direction\nhelp class: Class details')
