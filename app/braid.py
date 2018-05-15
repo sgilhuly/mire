@@ -105,7 +105,7 @@ class Maze():
 
 			if count > self.width * self.height:
 				print('INFINITE RECURSION DETECTED')
-				return false
+				return False
 
 		return count == self.width * self.height
 
