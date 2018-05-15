@@ -41,7 +41,7 @@ class Room():
 
 	def connect(self, other, direction, connect_other=True):
 		# Convert string directions to number
-		if isinstance(direction, basestring):
+		if isinstance(direction, str):
 			direction = Room.direction_codes[direction]
 		self.exits[direction] = other
 		if connect_other:
