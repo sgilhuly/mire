@@ -17,7 +17,7 @@ $(function() {
 
 	function writeMessage(message) {
 		if(messageBox.val()) {
-			messageBox.val(messageBox.val() + "\n\n" + message);
+			messageBox.val(messageBox.val() + "\n" + message);
 		} else {
 			messageBox.val(message);
 		}
