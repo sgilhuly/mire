@@ -39,7 +39,8 @@ def handle_message(message):
 		if not 4 <= len(message) <= 20:
 			send('The figure acts as if he didn\'t hear you right, and gestures as if to say:\n"Choose a name between 4 and 20 characters long."')
 			return
-		conn.player = Player(message, app.game.random_room())
+		conn.player = Player(message)
+		conn.player.conn = conn
 		send('"Welcome, %s. Before you lies a great maze.\nYou connection to this world is tenuous, and you will have only 100 steps to\nreach the goal. You may need to rely on others to complete your jounery.\n\nNow, may I ask what your profession is?"' % conn.player.name)
 		send('\n(Type 1 - 7 to select one of the following)\n  1 - SCOUTER\n  2 - SENSER\n  3 - SIGNALLER\n  4 - SIGNER\n  5 - SIMPLETON\n  6 - SNIFFER\n  7 - SOUNDER')
 		return
@@ -69,7 +70,10 @@ def handle_message(message):
 		else:
 			if args[0] == 'yes' or args[0] == 'y':
 				conn.player.type_confirmed = True
-				send('The figure bows. "Your goal lies near the south east corner of the maze."\n\nYou feel the sensation of jolting awake, though your eyes were already open.\n(Type "help" for general commands, or "help class" for class details.)')
+				send('The figure bows. "Your goal lies near the south east corner of the maze."\n\nYou experience the sensation of jolting awake, though your eyes remain open.\n(Type "help" for general commands, or "help class" for class details.)')
+				conn.player.enter_room(app.game.start_room, '%s appears.' % conn.player.name)
+				if conn.player.type == Player.TYPE_SCOUTER:
+					conn.player.steps_left *= 2
 				return
 			elif args[0] == 'no' or args[0] == 'n':
 				conn.player.type = Player.TYPE_NONE
@@ -87,4 +91,4 @@ def handle_message(message):
 		send('"%s" is unrecognized.' % args[0])
 
 	else:
-		app.game.commands[args[0]](conn.player, args)
+		app.game.commands[args[0]](conn.player, *args)
