@@ -150,3 +150,7 @@ def command_help(player, *args):
 	if len(args) > 1 and args[1] == 'class':
 		return
 	send('Here is a list of things you can do:\nsay <something>: Say something to the room\njump: Do some jumps\nlook: Look around\n<dir> / go <dir>: Move in a direction\nhelp class: Class details')
+		send(player.describe_class())
+
+	else:
+		send('Here is a list of things you can do:\nsay <something>: Say something to the room\njump: Do some jumps\nlook: Look around\n<dir> / go <dir>: Move in a direction\nhelp class: Class details')
