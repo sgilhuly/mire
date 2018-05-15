@@ -53,8 +53,9 @@ def handle_message(message):
 
 			#Assign a player class if it is in the list of classes
 			if int(args[0]) in Player.TYPE_NAMES.keys():
-				print("VALID KEY!")
 				conn.player.type = int(args[0])
+				send(conn.player.describe_class())
+				send('\n"Is this an accurate description of yourself?" (yes/no)')
 			return
 
 		else:
