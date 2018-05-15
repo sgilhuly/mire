@@ -31,14 +31,17 @@ class Room():
 		7: 'northwest'
 	}
 
-	def __init__(self, name):
+	def __init__(self, name, x, y):
 		app.game.rooms[name] = self
 		self.exits = {}
 		self.name = name
+		self.x = x
+		self.y = y
+		self.players = set()
 
 	def connect(self, other, direction, connect_other=True):
 		# Convert string directions to number
-		if isinstance(direction, basestring):
+		if isinstance(direction, str):
 			direction = Room.direction_codes[direction]
 		self.exits[direction] = other
 		if connect_other:
@@ -56,17 +59,17 @@ class Room():
 			# Join the direction names, and insert an oxford comma if there are at least three exits
 			return 'Exits are to the %s%s and %s.' % (', '.join(exits_named[:-1]), ',' if len(exits_named) >= 3 else '', exits_named[-1])
 
-x2y0 = Room('x2y0')
+# x2y0 = Room('x2y0')
 
-x0y1 = Room('x0y1')
-x1y1 = Room('x1y1').connect(x0y1, 'w').connect(x2y0, 'ne')
-x2y1 = Room('x2y1').connect(x1y1, 'w').connect(x2y0, 'n')
+# x0y1 = Room('x0y1')
+# x1y1 = Room('x1y1').connect(x0y1, 'w').connect(x2y0, 'ne')
+# x2y1 = Room('x2y1').connect(x1y1, 'w').connect(x2y0, 'n')
 
-x0y2 = Room('x0y2').connect(x0y1, 'n')
-x3y2 = Room('x3y2').connect(x2y1, 'nw')
+# x0y2 = Room('x0y2').connect(x0y1, 'n')
+# x3y2 = Room('x3y2').connect(x2y1, 'nw')
 
-x1y3 = Room('x1y3').connect(x0y2, 'nw')
-x2y3 = Room('x2y3').connect(x1y3, 'w')
-x3y3 = Room('x3y3').connect(x2y3, 'w').connect(x3y2, 'n')
+# x1y3 = Room('x1y3').connect(x0y2, 'nw')
+# x2y3 = Room('x2y3').connect(x1y3, 'w')
+# x3y3 = Room('x3y3').connect(x2y3, 'w').connect(x3y2, 'n')
 
-x1y4 = Room('x1y4').connect(x1y3, 'n').connect(x2y3, 'ne')
+# x1y4 = Room('x1y4').connect(x1y3, 'n').connect(x2y3, 'ne')
