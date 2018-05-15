@@ -75,8 +75,9 @@ def handle_message(message):
 				return
 
 	# Decide what the player's action was
-	if not args:
+	if not len(args):
 		send('You pause for a moment and think.')
+		return
 
 	if not args[0] in app.game.commands:
 		send('"%s" is unrecognized.' % args[0])
