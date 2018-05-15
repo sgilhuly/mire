@@ -34,7 +34,6 @@ def command_look(player, *args):
 @command('go', 'n', 's', 'e', 'w', 'north', 'south', 'east', 'west', 'ne', 'nw', 'se', 'sw', 'northeast', 'northwest', 'southeast', 'southwest')
 def command_go(player, *args):
 	going = args[0]
-	print('args %s'%args)
 	if not going in Room.direction_codes:
 		going = args[1]
 		if not going in Room.direction_codes:
