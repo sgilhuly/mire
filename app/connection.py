@@ -48,25 +48,16 @@ def handle_message(message):
 	args = message.split(' ')
 
 	if not conn.player.type_confirmed:
+
 		if conn.player.type == Player.TYPE_NONE:
-			if args[0] == '1':
-				conn.player.type = Player.TYPE_SCOUTER
-			if args[0] == '2':
-				conn.player.type = Player.TYPE_SENSER
-			if args[0] == '3':
-				conn.player.type = Player.TYPE_SIGNALLER
-			if args[0] == '4':
-				conn.player.type = Player.TYPE_SIGNER
-			if args[0] == '5':
-				conn.player.type = Player.TYPE_SIMPLETON
-			if args[0] == '6':
-				conn.player.type = Player.TYPE_SNIFFER
-			if args[0] == '7':
-				conn.player.type = Player.TYPE_SOUNDER
-			send(conn.player.describe_class())
-			if conn.player.type != Player.TYPE_NONE:
+
+			#Assign a player class if it is in the list of classes
+			if int(args[0]) in Player.TYPE_NAMES.keys():
+				conn.player.type = int(args[0])
+				send(conn.player.describe_class())
 				send('\n"Is this an accurate description of yourself?" (yes/no)')
 			return
+
 		else:
 			if args[0] == 'yes' or args[0] == 'y':
 				conn.player.type_confirmed = True
@@ -91,4 +82,4 @@ def handle_message(message):
 		send('"%s" is unrecognized.' % args[0])
 
 	else:
-		app.game.commands[args[0]](conn.player, args)
+		app.game.commands[args[0]](conn.player, *args[1:])

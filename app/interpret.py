@@ -9,18 +9,18 @@ from app.room import Room
 app.game.commands = {}
 
 # Attach this to a function to make the aliases available to the interpreter
-def command(aliases):
+def command(*aliases):
 	def command_decorator(func):
 		@wraps(func)
-		def func_wrapper(player, args):
+		def func_wrapper(player, *args):
 			return func(player, args)
 		for c in aliases:
 			app.game.commands[c] = func_wrapper
 		return func_wrapper
 	return command_decorator
 
-@command(['say'])
-def command_say(player, args):
+@command('say')
+def command_say(player, *args):
 	if player.type == Player.TYPE_SNIFFER:
 		send('%s barks.' % player.name, room=player.room.name, broadcast=True)
 	else:
@@ -29,8 +29,8 @@ def command_say(player, args):
 			text = text.upper()
 		send('%s says "%s".' % (player.name, text), room=player.room.name, broadcast=True)
 
-@command(['shout'])
-def command_shout(player, args):
+@command('shout')
+def command_shout(player, *args):
 	if player.type == Player.TYPE_SNIFFER:
 		room_message = '%s barks loudly!' % player.name
 		far_message = 'You hear barks coming from the %s.'
@@ -57,26 +57,27 @@ def command_shout(player, args):
 					room_queue.append((exit_room, distance + 1))
 				send(far_message % Room.direction_names[(exit_dir + 4) % 8], room=exit_room.name, broadcast=True)
 
-@command(['jump'])
-def command_jump(player, args):
+@command('jump')
+def command_jump(player, *args):
 	send('%s jumps up and down.' % player.name, room=player.room.name, broadcast=True)
 
-@command(['look', 'l'])
-def command_look(player, args):
+@command('look', 'l')
+def command_look(player, *args):
 	send('You are in featureless maze.')
 	send(player.room.describe_exits())
 
-@command(['status', 'stats', 'stat'])
-def command_status(player, args):
+@command('status', 'stats', 'stat')
+def command_status(player, *args):
 	send('%d steps left.' % player.steps_left)
 
-@command(['go', 'move', 'walk', 'n', 's', 'e', 'w', 'north', 'south', 'east', 'west', 'ne', 'nw', 'se', 'sw', 'northeast', 'northwest', 'southeast', 'southwest'])
-def command_go(player, args):
+@command('go', 'move', 'walk', 'n', 's', 'e', 'w', 'north', 'south', 'east', 'west', 'ne', 'nw', 'se', 'sw', 'northeast', 'northwest', 'southeast', 'southwest')
+def command_go(player, *args):
 	if player.steps_left <= 0:
 		send('You are too tired to move.')
 		return
 
 	going = args[0]
+	print('args %s'%args)
 	if not going in Room.direction_codes:
 		going = args[1]
 		if not going in Room.direction_codes:
@@ -113,8 +114,8 @@ def command_go(player, args):
 	if won:
 		send('\n\nBefore you is a column of light ready to take you out of the maze.\nYou have, at last, found the exit.\n\nYOU DID IT.')
 
-@command(['sing', 'sound'])
-def command_sing(player, args):
+@command('sing', 'sound')
+def command_sing(player, *args):
 	if player.type == Player.TYPE_SOUNDER and len(args) > 1:
 		if args[1] in Room.direction_codes:
 			sing_dir = Room.direction_codes[args[1]]
@@ -144,8 +145,8 @@ def command_sing(player, args):
 			return
 	send('%s sings.' % player.name, room=player.room.name, broadcast=True)
 
-@command(['help', 'what'])
-def command_help(player, args):
+@command('help', 'what')
+def command_help(player, *args):
 	if len(args) > 1 and args[1] == 'class':
 		return
 	send('Here is a list of things you can do:\nsay <something>: Say something to the room\njump: Do some jumps\nlook: Look around\n<dir> / go <dir>: Move in a direction\nhelp class: Class details')
