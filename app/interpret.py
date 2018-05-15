@@ -72,6 +72,10 @@ def command_status(player, args):
 
 @command(['go', 'move', 'walk', 'n', 's', 'e', 'w', 'north', 'south', 'east', 'west', 'ne', 'nw', 'se', 'sw', 'northeast', 'northwest', 'southeast', 'southwest'])
 def command_go(player, args):
+	if player.steps_left <= 0:
+		send('You are too tired to move.')
+		return
+
 	going = args[0]
 	if not going in Room.direction_codes:
 		going = args[1]
