@@ -48,14 +48,14 @@ def handle_message(message):
 	args = message.split(' ')
 
 	if not conn.player.type_confirmed:
-
 		if conn.player.type == Player.TYPE_NONE:
-
 			#Assign a player class if it is in the list of classes
-			if int(args[0]) in Player.TYPE_NAMES.keys():
+			if int(args[0]) in Player.TYPE_NAMES:
 				conn.player.type = int(args[0])
 				send(conn.player.describe_class())
 				send('\n"Is this an accurate description of yourself?" (yes/no)')
+			else:
+				send('(Type 1 - 7 to select one of the following)\n  1 - SCOUTER\n  2 - SENSER\n  3 - SIGNALLER\n  4 - SIGNER\n  5 - SIMPLETON\n  6 - SNIFFER\n  7 - SOUNDER')
 			return
 
 		else:
@@ -75,11 +75,12 @@ def handle_message(message):
 				return
 
 	# Decide what the player's action was
-	if not args:
+	if not len(args):
 		send('You pause for a moment and think.')
+		return
 
 	if not args[0] in app.game.commands:
 		send('"%s" is unrecognized.' % args[0])
 
 	else:
-		app.game.commands[args[0]](conn.player, *args[1:])
+		app.game.commands[args[0]](conn.player, *args)
