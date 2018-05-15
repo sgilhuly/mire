@@ -77,6 +77,7 @@ def command_go(player, *args):
 		return
 
 	going = args[0]
+	print('args %s'%args)
 	if not going in Room.direction_codes:
 		going = args[1]
 		if not going in Room.direction_codes:
