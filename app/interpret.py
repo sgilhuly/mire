@@ -113,6 +113,11 @@ def command_go(player, *args):
 			send('The smell is stronger behind you, go back!')
 
 	player.steps_left -= 1
+
+	#hints the player on their movements left
+	if player.passed_exhaustion_milestone():
+		send(player.get_exhaustion())
+
 	won = player.room == app.game.end_room
 	if player.steps_left <= 0:
 		send('You have taken your last laborious step, and collapse.')
