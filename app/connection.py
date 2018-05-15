@@ -83,4 +83,4 @@ def handle_message(message):
 		send('"%s" is unrecognized.' % args[0])
 
 	else:
-		app.game.commands[args[0]](conn.player, *args[1:])
+		app.game.commands[args[0]](conn.player, *args)

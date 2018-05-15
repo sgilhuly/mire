@@ -13,7 +13,7 @@ def command(*aliases):
 	def command_decorator(func):
 		@wraps(func)
 		def func_wrapper(player, *args):
-			return func(player, args)
+			return func(player, *args)
 		for c in aliases:
 			app.game.commands[c] = func_wrapper
 		return func_wrapper
@@ -77,7 +77,6 @@ def command_go(player, *args):
 		return
 
 	going = args[0]
-	print('args %s'%args)
 	if not going in Room.direction_codes:
 		going = args[1]
 		if not going in Room.direction_codes:
