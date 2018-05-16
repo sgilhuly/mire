@@ -1,3 +1,4 @@
+import math
 from functools import wraps
 
 from flask_socketio import join_room, leave_room, send
@@ -151,6 +152,38 @@ def command_sing(player, *args):
 					send('There is a strong echo.')
 			return
 	send('%s sings.' % player.name, room=player.room.name, broadcast=True)
+
+@command('direction', 'dir', 'compass')
+def command_compass(player, *args):
+	if player.type != Player.TYPE_SIGNALLER:
+		send('Alas, you do not have a compass.')
+		return
+
+	if player.room == app.game.end_room:
+		send('Your compass is going crazy!')
+		return
+
+	x = app.game.end_room.x - player.room.x
+	y = app.game.end_room.y - player.room.y
+	# atan2 takes y then x, and goes cclockwise from 1,0
+	# by giving x then y, we get clockwise from 0,1, the same way we count directions
+	angle = (round(math.atan2(x, -y) * 180.0 / math.pi / 5) * 5) % 360
+	if angle % 45 == 0:
+		send('Your compass is reading due %s.' % Room.direction_names[angle / 45])
+		return
+	# Hard code this for now
+	elif 0 < angle < 90:
+		send('Your compass is reading %s degrees east of north.' % angle)
+		return
+	elif 90 < angle < 180:
+		send('Your compass is reading %s degrees east of south.' % 180 - angle)
+		return
+	elif 180 < angle < 270:
+		send('Your compass is reading %s degrees west of south.' % angle - 180)
+		return
+	else:
+		send('Your compass is reading %s degrees west of north.' % 360 - angle)
+		return
 
 @command('help', 'what')
 def command_help(player, *args):
