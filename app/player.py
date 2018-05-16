@@ -34,9 +34,9 @@ class Player():
 
 	TYPE_DESCRIPTIONS = { 
 		TYPE_SCOUTER: 'Faster and more energetic than the others. A scouter can move 200 spaces\ninstead of 100. Others may find this constant energy annoying.',
-		TYPE_SENSER: 'In tune with an innate location sense. A senser always knows their exact grid\nlocation. This sense makes up for a permanent blindness.',
+		TYPE_SENSER: 'NOT YET IMPLEMENTED\nIn tune with an innate location sense. A senser always knows their exact grid\nlocation. This sense makes up for a permanent blindness.',
 		TYPE_SIGNALLER: 'Just a person with a compass.',
-		TYPE_SIGNER: 'Posesses a magical marking skill. A signer can leave up to 5 magic signs, each\nwith a short message.',
+		TYPE_SIGNER: 'NOT YET IMPLEMENTED\nPosesses a magical marking skill. A signer can leave up to 5 magic signs, each\nwith a short message.',
 		TYPE_SIMPLETON: 'Just a person.',
 		TYPE_SNIFFER: 'A dog. A sniffer has a powerful sense of smell that can tell when the exit is\nclose. Can be heard from further away by barking, but can not speak.',
 		TYPE_SOUNDER: 'Has a fine sense of hearing. A sounder can sing in any direction, and tell how\nfar away the nearest wall is. Can also find dead ends by listening for echoes.'
@@ -45,7 +45,7 @@ class Player():
 	TYPE_HELP = {
 		TYPE_SCOUTER: 'You have 200 max steps instead of 100.\nYou also speak in all-caps.',
 		TYPE_SENSER: 'Not implemented, so you have no powers yet.',
-		TYPE_SIGNALLER: 'Not implemented, so you have no powers yet.',
+		TYPE_SIGNALLER: 'direction/dir/compass: Read your compass\nYour compass tells you the direction to the exit.',
 		TYPE_SIGNER: 'Not implemented, so you have no powers yet.',
 		TYPE_SIMPLETON: 'You are an ordinary person.\nYou have neither special abilities nor distinguishing features.',
 		TYPE_SNIFFER: 'You are a dog.\nYou can smell when you are getting closer to the exit.\nYou cannot speak, but your barks can be heard from further away.\nYou can point if you want to indicate a direction.',
@@ -69,7 +69,7 @@ class Player():
 
 	def describe_class(self):
 		try:
-			return '{}\n\n{}'.format(self.TYPE_NAMES[self.type], self.TYPE_DESCRIPTIONS[self.type])
+			return '{}\n\n{}'.format(Player.TYPE_NAMES[self.type], Player.TYPE_DESCRIPTIONS[self.type])
 		except KeyError:
 			return '(Type 1 - 7 to select a class)'
 
@@ -86,7 +86,7 @@ class Player():
 
 	def help_class(self):
 		try:
-			return '%s\n\n%s' % (self.TYPE_NAMES[self.type], self.TYPE_HELP[self.type])
+			return '%s\n\n%s' % (Player.TYPE_NAMES[self.type], Player.TYPE_HELP[self.type])
 		except KeyError:
 			return 'You have no class.'
 
